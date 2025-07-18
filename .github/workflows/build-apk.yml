@@ -1,0 +1,108 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        api-level: 35
+        build-tools: 35.0.0
+        cmake: 3.22.1
+      
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Clean project
+      run: ./gradlew clean
+      
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
+      
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
+      
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: bitchat-debug-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
+        
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: bitchat-release-apk
+        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        retention-days: 30
+        
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: BitChat v${{ github.run_number }}
+        body: |
+          ## تطبيق BitChat - إصدار ${{ github.run_number }}
+          
+          ### الميزات الجديدة:
+          - تطبيق محادثة لامركزي مع شبكة البلوتوث الشبكية المتطورة
+          - **نظام التمرير العام**: يمكن للرسائل العبور عبر أي جهاز بلوتوث
+          - اكتشاف الأجهزة المجاورة تلقائياً مع استراتيجيات متعددة
+          - واجهة مستخدم عربية جميلة ومتجاوبة
+          - دعم المحادثات والمكالمات الصوتية والمرئية
+          - تشفير end-to-end للرسائل مع تنكر البيانات
+          - توجيه ذكي يختار أفضل مسار تلقائياً
+          
+          ### التحميل:
+          - [Debug APK](./app-debug.apk) - للتطوير والاختبار
+          - [Release APK](./app-release-unsigned.apk) - للاستخدام العام
+          
+          ### متطلبات النظام:
+          - Android 7.0 (API 24) أو أحدث
+          - دعم Bluetooth LE
+          - إذن الموقع لاكتشاف الأجهزة
+          
+        draft: false
+        prerelease: false
+        
+    - name: Upload APK to Release
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: app/build/outputs/apk/debug/app-debug.apk
+        asset_name: bitchat-debug-v${{ github.run_number }}.apk
+        asset_content_type: application/vnd.android.package-archive

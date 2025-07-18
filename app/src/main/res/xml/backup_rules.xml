@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- استبعاد البيانات الحساسة من النسخ الاحتياطي -->
+    <exclude domain="database" />
+    <exclude domain="sharedpref" path="secure_prefs.xml" />
+    <exclude domain="external" />
+    <exclude domain="root" path="device_specific" />
+    
+    <!-- السماح ببعض التفضيلات العامة -->
+    <include domain="sharedpref" path="user_preferences.xml" />
+</full-backup-content>

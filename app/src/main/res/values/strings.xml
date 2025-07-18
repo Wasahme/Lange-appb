@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BitChat</string>
+    
+    <!-- Navigation -->
+    <string name="nav_chats">المحادثات</string>
+    <string name="nav_devices">الأجهزة</string>
+    <string name="nav_calls">المكالمات</string>
+    <string name="nav_profile">الملف الشخصي</string>
+    <string name="nav_settings">الإعدادات</string>
+    
+    <!-- Main Screen -->
+    <string name="mesh_network_active">الشبكة الشبكية نشطة</string>
+    <string name="devices_connected">%d جهاز متصل</string>
+    <string name="bluetooth_disabled_warning">تحذير - الشبكة الشبكية معطلة</string>
+    <string name="enable_bluetooth_message">يرجى تفعيل البلوتوث للاتصال بالأجهزة القريبة</string>
+    <string name="grant_location_permission">يرجى منح إذن الموقع لاكتشاف الأجهزة</string>
+    <string name="solve_problem">حل المشكلة</string>
+    
+    <!-- Chat -->
+    <string name="new_chat">محادثة جديدة</string>
+    <string name="no_chats">لا توجد محادثات</string>
+    <string name="start_new_chat">ابدأ محادثة جديدة بالضغط على +</string>
+    <string name="last_message_placeholder">آخر رسالة هنا...</string>
+    <string name="pinned">مثبت</string>
+    <string name="muted">مكتوم</string>
+    <string name="members">%d أعضاء</string>
+    
+    <!-- Devices -->
+    <string name="no_devices_found">لم يتم العثور على أجهزة</string>
+    <string name="enable_bluetooth_nearby">تأكد من تفعيل البلوتوث وقربك من أجهزة أخرى</string>
+    <string name="search_again">بحث مرة أخرى</string>
+    <string name="refresh_devices">تحديث الأجهزة</string>
+    <string name="network_stats">إحصائيات الشبكة</string>
+    <string name="connected_devices">الأجهزة المتصلة</string>
+    <string name="with_bitchat">مع BitChat</string>
+    <string name="max_range">المدى الأقصى</string>
+    <string name="hops">%d هوب</string>
+    <string name="direct">مباشر</string>
+    <string name="indirect">غير مباشر</string>
+    <string name="supports_bitchat">يدعم BitChat</string>
+    
+    <!-- Calls -->
+    <string name="no_calls">لا توجد مكالمات</string>
+    <string name="calls_description">ستظهر مكالماتك الصوتية والمرئية هنا</string>
+    <string name="missed_call">مكالمة فائتة</string>
+    <string name="no_answer">لم يتم الرد</string>
+    <string name="incoming">واردة</string>
+    <string name="outgoing">صادرة</string>
+    <string name="incoming_call">مكالمة واردة</string>
+    <string name="outgoing_call">مكالمة صادرة</string>
+    <string name="call_back">إعادة الاتصال</string>
+    <string name="call_details">تفاصيل المكالمة</string>
+    <string name="voice_call">مكالمة صوتية</string>
+    <string name="video_call">مكالمة فيديو</string>
+    
+    <!-- Time -->
+    <string name="now">الآن</string>
+    <string name="minutes_ago">%dد</string>
+    <string name="yesterday">أمس</string>
+    
+    <!-- Signal Strength -->
+    <string name="signal_excellent">قوي جداً</string>
+    <string name="signal_good">قوي</string>
+    <string name="signal_fair">متوسط</string>
+    <string name="signal_poor">ضعيف</string>
+    <string name="signal_very_poor">ضعيف جداً</string>
+    
+    <!-- Capabilities -->
+    <string name="cap_messaging">رسائل</string>
+    <string name="cap_voice">صوت</string>
+    <string name="cap_video">فيديو</string>
+    <string name="cap_file_transfer">ملفات</string>
+    
+    <!-- Profile -->
+    <string name="profile_setup">إعداد الملف الشخصي</string>
+    <string name="profile_setup_desc">قم بإنشاء ملفك الشخصي لبدء استخدام BitChat</string>
+    
+    <!-- Settings -->
+    <string name="app_settings">إعدادات التطبيق</string>
+    <string name="privacy_security_notifications">الخصوصية، الأمان، والإشعارات</string>
+    
+    <!-- General -->
+    <string name="back">رجوع</string>
+    <string name="more">المزيد</string>
+    <string name="refresh">تحديث</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="error">خطأ</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="ok">موافق</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    
+    <!-- Development -->
+    <string name="under_development">قيد التطوير</string>
+    <string name="chat_screen_dev">شاشة المحادثة قيد التطوير</string>
+    <string name="mesh_network_map">خريطة الشبكة الشبكية</string>
+    <string name="detailed_device_view">عرض تفصيلي للأجهزة المتصلة ومساراتها</string>
+    
+    <!-- Mesh Network -->
+    <string name="mesh_network">الشبكة الشبكية</string>
+    <string name="universal_relay">التمرير العام</string>
+    <string name="relay_capable_devices">الأجهزة القادرة على التمرير</string>
+    <string name="network_statistics">إحصائيات الشبكة</string>
+    <string name="route_types">أنواع المسارات</string>
+    <string name="bitchat_devices">أجهزة BitChat</string>
+    <string name="universal_devices">أجهزة بلوتوث عامة</string>
+    <string name="hybrid_routes">مسارات مختلطة</string>
+    <string name="reliability_score">درجة الموثوقية</string>
+    <string name="signal_strength_level">قوة الإشارة</string>
+    <string name="supported_strategies">استراتيجيات التمرير</string>
+    <string name="network_active">الشبكة نشطة</string>
+    <string name="network_inactive">الشبكة متوقفة</string>
+    <string name="messages_can_route_through_any_bluetooth">يمكن للرسائل العبور عبر أي جهاز بلوتوث</string>
+    <string name="no_relay_devices_found">لا توجد أجهزة قادرة على التمرير</string>
+    <string name="ensure_bluetooth_enabled">تأكد من تشغيل البلوتوث ووجود أجهزة قريبة</string>
+    <string name="devices_that_have_bitchat">الأجهزة التي تحتوي على التطبيق</string>
+    <string name="any_bluetooth_device_capable">أي جهاز بلوتوث قادر على التمرير</string>
+    <string name="combination_of_both_types">مزيج من النوعين السابقين</string>
+    <string name="relay_strategies">استراتيجيات التمرير</string>
+    <string name="mesh_network_status">حالة الشبكة الشبكية</string>
+    <string name="active">نشطة</string>
+    <string name="inactive">متوقفة</string>
+    <string name="messages_sent">الرسائل</string>
+    <string name="successful">نجحت</string>
+    <string name="latency">التأخير</string>
+    <string name="available_route_types">أنواع المسارات المتاحة</string>
+</resources>
