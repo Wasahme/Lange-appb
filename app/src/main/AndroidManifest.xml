@@ -82,19 +82,19 @@
         
         <!-- Bluetooth Service -->
         <service
-            android:name=".bluetooth.BluetoothMeshService"
+            android:name=".services.BluetoothMeshService"
             android:enabled="true"
             android:exported="false" />
             
         <!-- WebRTC Service -->
         <service
-            android:name=".webrtc.WebRTCService"
+            android:name=".services.WebRTCService"
             android:enabled="true"
             android:exported="false" />
             
         <!-- Mesh Network Service -->
         <service
-            android:name=".mesh.MeshNetworkService"
+            android:name=".services.MeshNetworkService"
             android:enabled="true"
             android:exported="false" />
     </application>

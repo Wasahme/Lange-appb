@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- تعطيل النسخ الاحتياطي السحابي للخصوصية -->
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    
+    <device-transfer>
+        <!-- السماح بنقل بعض البيانات عند تغيير الجهاز -->
+        <include domain="sharedpref" path="user_preferences.xml" />
+    </device-transfer>
+</data-extraction-rules>
