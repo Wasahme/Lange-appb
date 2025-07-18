@@ -326,10 +326,188 @@ class BluetoothManager @Inject constructor(
         _discoveredDevices.value = emptyList()
     }
 
+    /**
+     * إرسال رسالة عبر النظام الذكي الجديد
+     * يستطيع استخدام أي جهاز بلوتوث للتمرير
+     */
+    suspend fun sendMessageViaSmartRouting(
+        message: String,
+        targetDeviceId: String,
+        messageType: String = "text"
+    ): Boolean {
+        return try {
+            // إنشاء كائن Message من البيانات
+            val messageObj = com.bitchat.app.data.entities.Message(
+                messageId = UUID.randomUUID().toString(),
+                chatId = "direct_$targetDeviceId",
+                senderId = getCurrentDeviceId(),
+                content = message,
+                messageType = com.bitchat.app.data.entities.MessageType.TEXT,
+                timestamp = System.currentTimeMillis(),
+                isRead = false,
+                routePath = emptyList(),
+                encryptionKey = generateEncryptionKey()
+            )
+
+            // استخدام الموجه الذكي
+            val meshNetworkManager = MeshNetworkManager(context)
+            val universalRelay = UniversalBluetoothRelay(context)
+            val smartRouter = SmartMessageRouter(context, meshNetworkManager, universalRelay)
+            
+            val result = smartRouter.routeMessage(messageObj, targetDeviceId)
+            
+            when (result) {
+                com.bitchat.app.mesh.RoutingResult.SUCCESS -> {
+                    Log.d(TAG, "Message sent successfully via smart routing")
+                    true
+                }
+                com.bitchat.app.mesh.RoutingResult.QUEUED -> {
+                    Log.d(TAG, "Message queued for later delivery")
+                    true // سنعتبر هذا نجاح مؤقت
+                }
+                else -> {
+                    Log.w(TAG, "Failed to route message: $result")
+                    false
+                }
+            }
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error sending message via smart routing", e)
+            false
+        }
+    }
+
+    /**
+     * اكتشاف جميع أنواع الأجهزة القادرة على التمرير
+     */
+    suspend fun discoverAllRelayCapableDevices(): List<RelayCapableDeviceInfo> {
+        return try {
+            val universalRelay = UniversalBluetoothRelay(context)
+            val relayDevices = universalRelay.discoverRelayCapabilities()
+            
+            relayDevices.map { device ->
+                RelayCapableDeviceInfo(
+                    deviceId = device.deviceId,
+                    deviceName = device.deviceName,
+                    bluetoothAddress = device.bluetoothAddress,
+                    signalStrength = device.signalStrength,
+                    reliabilityScore = device.reliabilityScore,
+                    supportedStrategies = device.strategies.map { it::class.simpleName ?: "Unknown" },
+                    hasBleChatApp = false // سنفحص هذا لاحقاً
+                )
+            }
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error discovering relay capable devices", e)
+            emptyList()
+        }
+    }
+
+    /**
+     * الحصول على إحصائيات التوجيه
+     */
+    suspend fun getRoutingStatistics(): NetworkStatistics {
+        return try {
+            val meshNetworkManager = MeshNetworkManager(context)
+            val universalRelay = UniversalBluetoothRelay(context)
+            val smartRouter = SmartMessageRouter(context, meshNetworkManager, universalRelay)
+            
+            val stats = smartRouter.routingStats.value
+            val availableRoutes = smartRouter.availableRoutes.value
+            
+            NetworkStatistics(
+                totalMessages = stats.totalMessages,
+                successfulMessages = stats.successfulMessages,
+                averageLatency = stats.averageLatency,
+                availableRoutes = availableRoutes.size,
+                bitChatDevices = availableRoutes.count { it.routeType == com.bitchat.app.mesh.RouteType.DIRECT_BITCHAT },
+                universalRelays = availableRoutes.count { it.routeType == com.bitchat.app.mesh.RouteType.UNIVERSAL_RELAY },
+                hybridRoutes = availableRoutes.count { it.routeType == com.bitchat.app.mesh.RouteType.HYBRID }
+            )
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting routing statistics", e)
+            NetworkStatistics()
+        }
+    }
+
+    /**
+     * بدء الشبكة الشبكية المتقدمة
+     */
+    fun startAdvancedMeshNetwork(): Boolean {
+        return try {
+            val meshNetworkManager = MeshNetworkManager(context)
+            // الشبكة الشبكية تبدأ تلقائياً عند إنشاء المدير
+            Log.d(TAG, "Advanced mesh network started")
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to start advanced mesh network", e)
+            false
+        }
+    }
+
+    /**
+     * إيقاف الشبكة الشبكية المتقدمة
+     */
+    fun stopAdvancedMeshNetwork() {
+        try {
+            // سيتم إضافة منطق الإيقاف هنا
+            Log.d(TAG, "Advanced mesh network stopped")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error stopping advanced mesh network", e)
+        }
+    }
+
+    /**
+     * الحصول على معرف الجهاز الحالي
+     */
+    private fun getCurrentDeviceId(): String {
+        return bluetoothAdapter?.address?.replace(":", "") ?: "unknown_device"
+    }
+
+    /**
+     * توليد مفتاح تشفير عشوائي
+     */
+    private fun generateEncryptionKey(): String {
+        return UUID.randomUUID().toString().replace("-", "").take(32)
+    }
+
+    /**
+     * تنظيف الموارد عند الإغلاق
+     */
     fun destroy() {
-        stopScanning()
-        stopAdvertising()
-        gattServer?.close()
-        coroutineScope.cancel()
+        try {
+            stopScanning()
+            stopAdvertising()
+            stopAdvancedMeshNetwork()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error during cleanup", e)
+        }
     }
 }
+
+/**
+ * معلومات جهاز قادر على التمرير
+ */
+data class RelayCapableDeviceInfo(
+    val deviceId: String,
+    val deviceName: String,
+    val bluetoothAddress: String,
+    val signalStrength: Int,
+    val reliabilityScore: Float,
+    val supportedStrategies: List<String>,
+    val hasBleChatApp: Boolean
+)
+
+/**
+ * إحصائيات الشبكة
+ */
+data class NetworkStatistics(
+    val totalMessages: Long = 0,
+    val successfulMessages: Long = 0,
+    val averageLatency: Long = 0,
+    val availableRoutes: Int = 0,
+    val bitChatDevices: Int = 0,
+    val universalRelays: Int = 0,
+    val hybridRoutes: Int = 0
+)

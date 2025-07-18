@@ -97,4 +97,33 @@
     <string name="chat_screen_dev">شاشة المحادثة قيد التطوير</string>
     <string name="mesh_network_map">خريطة الشبكة الشبكية</string>
     <string name="detailed_device_view">عرض تفصيلي للأجهزة المتصلة ومساراتها</string>
+    
+    <!-- Mesh Network -->
+    <string name="mesh_network">الشبكة الشبكية</string>
+    <string name="universal_relay">التمرير العام</string>
+    <string name="relay_capable_devices">الأجهزة القادرة على التمرير</string>
+    <string name="network_statistics">إحصائيات الشبكة</string>
+    <string name="route_types">أنواع المسارات</string>
+    <string name="bitchat_devices">أجهزة BitChat</string>
+    <string name="universal_devices">أجهزة بلوتوث عامة</string>
+    <string name="hybrid_routes">مسارات مختلطة</string>
+    <string name="reliability_score">درجة الموثوقية</string>
+    <string name="signal_strength_level">قوة الإشارة</string>
+    <string name="supported_strategies">استراتيجيات التمرير</string>
+    <string name="network_active">الشبكة نشطة</string>
+    <string name="network_inactive">الشبكة متوقفة</string>
+    <string name="messages_can_route_through_any_bluetooth">يمكن للرسائل العبور عبر أي جهاز بلوتوث</string>
+    <string name="no_relay_devices_found">لا توجد أجهزة قادرة على التمرير</string>
+    <string name="ensure_bluetooth_enabled">تأكد من تشغيل البلوتوث ووجود أجهزة قريبة</string>
+    <string name="devices_that_have_bitchat">الأجهزة التي تحتوي على التطبيق</string>
+    <string name="any_bluetooth_device_capable">أي جهاز بلوتوث قادر على التمرير</string>
+    <string name="combination_of_both_types">مزيج من النوعين السابقين</string>
+    <string name="relay_strategies">استراتيجيات التمرير</string>
+    <string name="mesh_network_status">حالة الشبكة الشبكية</string>
+    <string name="active">نشطة</string>
+    <string name="inactive">متوقفة</string>
+    <string name="messages_sent">الرسائل</string>
+    <string name="successful">نجحت</string>
+    <string name="latency">التأخير</string>
+    <string name="available_route_types">أنواع المسارات المتاحة</string>
 </resources>
